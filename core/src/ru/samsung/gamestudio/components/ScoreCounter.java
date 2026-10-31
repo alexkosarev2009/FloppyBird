@@ -1,17 +1,16 @@
-package ru.samsung.gamestudio;
+package ru.samsung.gamestudio.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.math.MathUtils;
 
 public class ScoreCounter {
 
-    int x, y;
-    BitmapFont font;
-    ScoreCounter(int x, int y) {
+    private int x, y;
+    private BitmapFont font;
+    public ScoreCounter(int x, int y) {
         this.x = x;
         this.y = y;
 
@@ -28,11 +27,11 @@ public class ScoreCounter {
         freeTypeFontGenerator.dispose();
     }
 
-    void draw(Batch batch, long score) {
+    public void draw(Batch batch, long score) {
         font.draw(batch, String.valueOf(score), x, y);
     }
 
-    void dispose() {
+    public void dispose() {
         font.dispose();
     }
 }

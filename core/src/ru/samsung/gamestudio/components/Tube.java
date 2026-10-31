@@ -1,4 +1,4 @@
-package ru.samsung.gamestudio;
+package ru.samsung.gamestudio.components;
 
 import static ru.samsung.gamestudio.MyGdxGame.SCR_HEIGHT;
 import static ru.samsung.gamestudio.MyGdxGame.SCR_WIDTH;
@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
+
+import ru.samsung.gamestudio.characters.Bird;
 
 public class Tube {
     private TextureRegion upperTubeTexture;
@@ -51,7 +53,7 @@ public class Tube {
         lowerTubeTexture.getTexture().dispose();
         upperTubeTexture.getTexture().dispose();
     }
-    void move(float delta) {
+    public void move(float delta) {
         x -= speed * delta;
         if (x < -WIDTH) {
             isPointReceived = false;

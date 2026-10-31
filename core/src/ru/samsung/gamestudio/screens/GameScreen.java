@@ -1,4 +1,4 @@
-package ru.samsung.gamestudio;
+package ru.samsung.gamestudio.screens;
 
 import static ru.samsung.gamestudio.MyGdxGame.SCR_HEIGHT;
 import static ru.samsung.gamestudio.MyGdxGame.SCR_WIDTH;
@@ -7,8 +7,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.Random;
+
+import ru.samsung.gamestudio.characters.Bird;
+import ru.samsung.gamestudio.components.MovingBackground;
+import ru.samsung.gamestudio.MyGdxGame;
+import ru.samsung.gamestudio.components.ScoreCounter;
+import ru.samsung.gamestudio.components.Tube;
 
 public class GameScreen implements Screen {
     private final MyGdxGame myGdxGame;
@@ -75,6 +82,15 @@ public class GameScreen implements Screen {
                 tube.stop();
             }
             movingBackground.stop();
+            if (bird.getY() <= 0) {
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        myGdxGame.restartScreen.setScore(score);
+                        myGdxGame.setScreen(myGdxGame.restartScreen);
+                    }
+                }, 0.5f);
+            }
         }
         if (Gdx.input.justTouched() && !isGameOver) {
             bird.jump();

@@ -1,8 +1,10 @@
-package ru.samsung.gamestudio;
+package ru.samsung.gamestudio.components;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import ru.samsung.gamestudio.MyGdxGame;
 
 public class MovingBackground {
     private Texture texture;
@@ -29,7 +31,7 @@ public class MovingBackground {
 
         speed = 45f;
     }
-    void move(float delta) {
+    public void move(float delta) {
         x1 -= speed * delta;
         x2 -= speed * delta;
 
