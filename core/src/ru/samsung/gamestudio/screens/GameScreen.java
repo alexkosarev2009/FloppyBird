@@ -25,6 +25,7 @@ public class GameScreen implements Screen {
     private boolean isGameOver;
 
     private final MovingBackground movingBackground;
+    private boolean restartScreenScheduled = false;
 
     private final ScoreCounter scoreCounter;
     private long score;
@@ -82,7 +83,8 @@ public class GameScreen implements Screen {
                 tube.stop();
             }
             movingBackground.stop();
-            if (bird.getY() <= 0) {
+            if (bird.getY() <= 0 && !restartScreenScheduled) {
+                restartScreenScheduled = true;
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
@@ -135,6 +137,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         isGameOver = false;
+        restartScreenScheduled = false;
         score = 0;
     }
 
@@ -174,4 +177,16 @@ public class GameScreen implements Screen {
             tubes[i] = new Tube(random, TUBE_COUNT, i);
         }
     }
+    public void restartGame(float delta) {
+        this.isGameOver = false;
+
+        this.score = 0;
+
+        bird.reset((float) MyGdxGame.SCR_WIDTH / 2 - Bird.WIDTH, 300);
+
+        initTubes();
+
+        movingBackground.move(delta);
+    }
+
 }

@@ -40,18 +40,25 @@ public class RestartScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(1, 1, 1, 1);
 
-        Vector3 touch = myGdxGame.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        Vector3 touch = new Vector3(-1, -1, -1);
+
+        if (Gdx.input.justTouched()) {
+            touch = myGdxGame.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        }
         if (restartButton.isClicked(touch.x, touch.y)) {
-            myGdxGame.gameScreen = new GameScreen(myGdxGame);
+            myGdxGame.gameScreen.restartGame(delta);
             myGdxGame.setScreen(myGdxGame.gameScreen);
+            Gdx.input.justTouched();
             return;
         }
         if (goToMenuButton.isClicked(touch.x, touch.y)) {
-            myGdxGame.gameScreen = new GameScreen(myGdxGame);
+            myGdxGame.gameScreen.restartGame(delta);
             myGdxGame.setScreen(myGdxGame.menuScreen);
+            return;
         }
+        ScreenUtils.clear(1, 1, 1, 1);
+
 
         myGdxGame.camera.update();
         myGdxGame.batch.setProjectionMatrix(myGdxGame.camera.combined);

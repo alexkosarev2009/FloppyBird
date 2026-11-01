@@ -41,6 +41,14 @@ public class Bird {
 
     private TextureRegion currentTexture;
 
+    public float getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
+    }
+
     private float rotation = 0f;
     public static final float WIDTH = 100f;
     public static final float HEIGHT = 80f;
@@ -134,6 +142,20 @@ public class Bird {
 
     public void hitUpperTube() {
         speedY = -JUMP_IMPULSE;
+    }
+
+    public void reset(float x, float y) {
+        this.x = x;
+        this.y = y;
+
+        this.speedY = 0;
+        this.rotation = 0f;
+        this.animationTimer = 0f;
+
+        this.bounds.setPosition(
+                x + paddingX,
+                y + paddingY
+        );
     }
 
 
