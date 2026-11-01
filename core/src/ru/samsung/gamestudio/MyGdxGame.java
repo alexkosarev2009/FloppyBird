@@ -6,12 +6,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.samsung.gamestudio.screens.GameScreen;
+import ru.samsung.gamestudio.screens.MenuScreen;
 import ru.samsung.gamestudio.screens.RestartScreen;
 
 public class MyGdxGame extends Game {
 	public SpriteBatch batch;
     public GameScreen gameScreen;
     public RestartScreen restartScreen;
+    public MenuScreen menuScreen;
     public OrthographicCamera camera;
     public static final int SCR_WIDTH = 1280;
     public static final int SCR_HEIGHT = 720;
@@ -24,6 +26,7 @@ public class MyGdxGame extends Game {
 
         gameScreen = new GameScreen(this);
         restartScreen = new RestartScreen(this);
+        menuScreen = new MenuScreen(this);
 
         setScreen(gameScreen);
 	}
@@ -33,5 +36,6 @@ public class MyGdxGame extends Game {
 		batch.dispose();
         if (gameScreen != null) gameScreen.dispose();
         if (restartScreen != null) restartScreen.dispose();
+        if (menuScreen != null) menuScreen.dispose();
     }
 }

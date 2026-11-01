@@ -14,7 +14,8 @@ import ru.samsung.gamestudio.components.TextButton;
 public class RestartScreen implements Screen {
     private final MyGdxGame myGdxGame;
     private final MovingBackground movingBackground;
-    private final TextButton button;
+    private final TextButton restartButton;
+    private final TextButton goToMenuButton;
     private long score;
     private final ScoreCounter scoreCounter;
 
@@ -27,7 +28,8 @@ public class RestartScreen implements Screen {
         this.score = 0;
         this.scoreCounter = new ScoreCounter(750, 530);
         this.movingBackground = new MovingBackground(new Texture("backgrounds/restart_bg.png"));
-        this.button = new TextButton(100, 400, "Restart");
+        this.restartButton = new TextButton(100, 500, "Restart");
+        this.goToMenuButton = new TextButton(100, 300, "Menu");
     }
 
 
@@ -41,9 +43,14 @@ public class RestartScreen implements Screen {
         ScreenUtils.clear(1, 1, 1, 1);
 
         Vector3 touch = myGdxGame.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-        if (button.isClicked(touch.x, touch.y)) {
+        if (restartButton.isClicked(touch.x, touch.y)) {
             myGdxGame.gameScreen = new GameScreen(myGdxGame);
             myGdxGame.setScreen(myGdxGame.gameScreen);
+            return;
+        }
+        if (goToMenuButton.isClicked(touch.x, touch.y)) {
+            myGdxGame.gameScreen = new GameScreen(myGdxGame);
+            myGdxGame.setScreen(myGdxGame.menuScreen);
         }
 
         myGdxGame.camera.update();
@@ -52,8 +59,8 @@ public class RestartScreen implements Screen {
         myGdxGame.batch.begin();
 
         movingBackground.draw(myGdxGame.batch);
-
-        button.draw(myGdxGame.batch);
+        restartButton.draw(myGdxGame.batch);
+        goToMenuButton.draw(myGdxGame.batch);
         scoreCounter.draw(myGdxGame.batch, score);
 
         myGdxGame.batch.end();
@@ -83,7 +90,8 @@ public class RestartScreen implements Screen {
     @Override
     public void dispose() {
         movingBackground.dispose();
-        button.dispose();
+        restartButton.dispose();
         scoreCounter.dispose();
+        goToMenuButton.dispose();
     }
 }
