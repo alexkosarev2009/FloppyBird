@@ -28,7 +28,7 @@ public class MyGdxGame extends Game {
         restartScreen = new RestartScreen(this);
         menuScreen = new MenuScreen(this);
 
-        setScreen(gameScreen);
+        setScreen(menuScreen);
 	}
 
 	@Override

@@ -37,7 +37,11 @@ public class MenuScreen implements Screen {
     @Override
     public void render(float delta) {
         movingBackground.move(delta);
-        Vector3 touch = myGdxGame.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        Vector3 touch = new Vector3(-1, -1, -1);
+
+        if (Gdx.input.justTouched()) {
+            touch = myGdxGame.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        }
         if (startGameButton.isClicked(touch.x, touch.y)) {
             myGdxGame.gameScreen = new GameScreen(myGdxGame);
             myGdxGame.setScreen(myGdxGame.gameScreen);

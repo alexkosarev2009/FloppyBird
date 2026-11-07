@@ -97,7 +97,7 @@ public class Bird {
             rotation = MathUtils.lerp(rotation, targetRotation, 15f * delta);
         }
         else {
-            targetRotation = -70f;
+            targetRotation = -75f;
             rotation = MathUtils.lerp(rotation, targetRotation, 2f * delta);
         }
 
