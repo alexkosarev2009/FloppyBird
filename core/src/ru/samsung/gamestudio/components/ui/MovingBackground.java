@@ -1,4 +1,4 @@
-package ru.samsung.gamestudio.components;
+package ru.samsung.gamestudio.components.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -9,6 +9,7 @@ import ru.samsung.gamestudio.MyGdxGame;
 public class MovingBackground {
     private Texture texture;
     private TextureRegion region;
+    private static final float MOVE_SPEED = 45f;
     private float x1;
     private float x2;
 
@@ -29,7 +30,7 @@ public class MovingBackground {
         this.x1 = 0;
         this.x2 = MyGdxGame.SCR_WIDTH - 1;
 
-        speed = 45f;
+        speed = MOVE_SPEED;
     }
     public void move(float delta) {
         x1 -= speed * delta;
@@ -52,8 +53,10 @@ public class MovingBackground {
     }
 
     public void draw(Batch batch) {
-        batch.draw(region, x1, 0, MyGdxGame.SCR_WIDTH + 2, MyGdxGame.SCR_HEIGHT);
-        batch.draw(region, x2, 0, MyGdxGame.SCR_WIDTH + 2, MyGdxGame.SCR_HEIGHT);
+        float paddingY = 50f;
+
+        batch.draw(region, x1, -paddingY, MyGdxGame.SCR_WIDTH + 2, MyGdxGame.SCR_HEIGHT + (paddingY * 2));
+        batch.draw(region, x2, -paddingY, MyGdxGame.SCR_WIDTH + 2, MyGdxGame.SCR_HEIGHT + (paddingY * 2));
     }
 
     public void dispose() {
@@ -62,5 +65,8 @@ public class MovingBackground {
 
     public void stop() {
         speed = 0;
+    }
+    public void start() {
+        speed = MOVE_SPEED;
     }
 }

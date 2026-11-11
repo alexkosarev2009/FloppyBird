@@ -1,4 +1,4 @@
-package ru.samsung.gamestudio.components;
+package ru.samsung.gamestudio.components.tubes;
 
 import static ru.samsung.gamestudio.MyGdxGame.SCR_HEIGHT;
 import static ru.samsung.gamestudio.MyGdxGame.SCR_WIDTH;
@@ -16,20 +16,20 @@ public class Tube {
     private TextureRegion upperTubeTexture;
     private TextureRegion lowerTubeTexture;
 
-    private final Random random;
+    protected final Random random;
 
     public static final float WIDTH = 120f;
     public static final float HEIGHT = 600f;
-    private float x;
-    private float distanceBetweenTubes;
-    private int padding = 50;
-    private float speed = 200f;
+    protected float x;
+    protected float distanceBetweenTubes;
+    protected int padding = 50;
+    protected float speed = 200f;
 
-    private int gapY;
+    protected float gapY;
 
-    private final int GAP_HEIGHT = 250;
+    protected final int GAP_HEIGHT = 250;
 
-    private boolean isPointReceived;
+    protected boolean isPointReceived;
 
     public Tube(Random random, int tubeCount, int tubeIndex) {
         upperTubeTexture = new TextureRegion(new Texture("tubes/tube_flipped.png"));
@@ -61,6 +61,7 @@ public class Tube {
             gapY = GAP_HEIGHT / 2 + padding + random.nextInt(SCR_HEIGHT - 2 * (padding + GAP_HEIGHT / 2));
         }
     }
+
     public void stop() {
         speed = 0;
     }

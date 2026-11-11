@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.samsung.gamestudio.MyGdxGame;
-import ru.samsung.gamestudio.components.MovingBackground;
-import ru.samsung.gamestudio.components.TextButton;
+import ru.samsung.gamestudio.components.ui.MovingBackground;
+import ru.samsung.gamestudio.components.ui.TextButton;
 
 public class MenuScreen implements Screen {
 
@@ -49,7 +49,7 @@ public class MenuScreen implements Screen {
         if (quitGameButton.isClicked(touch.x, touch.y)) {
             Gdx.app.exit();
         }
-        ScreenUtils.clear(1, 1, 1, 1);
+        ScreenUtils.clear(0, 0, 0, 1);
 
         myGdxGame.camera.update();
         myGdxGame.batch.setProjectionMatrix(myGdxGame.camera.combined);
@@ -65,7 +65,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        myGdxGame.viewport.update(width, height);
     }
 
     @Override

@@ -3,6 +3,7 @@ package ru.samsung.gamestudio;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.samsung.gamestudio.screens.GameScreen;
@@ -15,6 +16,7 @@ public class MyGdxGame extends Game {
     public RestartScreen restartScreen;
     public MenuScreen menuScreen;
     public OrthographicCamera camera;
+    public FitViewport viewport;
     public static final int SCR_WIDTH = 1280;
     public static final int SCR_HEIGHT = 720;
 
@@ -23,6 +25,7 @@ public class MyGdxGame extends Game {
 		batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCR_WIDTH, SCR_HEIGHT);
+        viewport = new FitViewport(SCR_WIDTH, SCR_HEIGHT, camera);
 
         gameScreen = new GameScreen(this);
         restartScreen = new RestartScreen(this);

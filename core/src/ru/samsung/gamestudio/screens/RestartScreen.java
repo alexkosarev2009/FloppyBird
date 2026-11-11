@@ -7,9 +7,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import ru.samsung.gamestudio.MyGdxGame;
-import ru.samsung.gamestudio.components.MovingBackground;
-import ru.samsung.gamestudio.components.ScoreCounter;
-import ru.samsung.gamestudio.components.TextButton;
+import ru.samsung.gamestudio.components.ui.MovingBackground;
+import ru.samsung.gamestudio.components.ui.ScoreCounter;
+import ru.samsung.gamestudio.components.ui.TextButton;
 
 public class RestartScreen implements Screen {
     private final MyGdxGame myGdxGame;
@@ -47,17 +47,17 @@ public class RestartScreen implements Screen {
             touch = myGdxGame.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         }
         if (restartButton.isClicked(touch.x, touch.y)) {
-            myGdxGame.gameScreen.restartGame(delta);
+            myGdxGame.gameScreen.restartGame();
             myGdxGame.setScreen(myGdxGame.gameScreen);
             Gdx.input.justTouched();
             return;
         }
         if (goToMenuButton.isClicked(touch.x, touch.y)) {
-            myGdxGame.gameScreen.restartGame(delta);
+            myGdxGame.gameScreen.restartGame();
             myGdxGame.setScreen(myGdxGame.menuScreen);
             return;
         }
-        ScreenUtils.clear(1, 1, 1, 1);
+        ScreenUtils.clear(0, 0, 0, 1);
 
 
         myGdxGame.camera.update();
@@ -76,7 +76,7 @@ public class RestartScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        myGdxGame.viewport.update(width, height);
     }
 
     @Override

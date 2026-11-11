@@ -12,10 +12,11 @@ import com.badlogic.gdx.utils.Timer;
 import java.util.Random;
 
 import ru.samsung.gamestudio.characters.Bird;
-import ru.samsung.gamestudio.components.MovingBackground;
+import ru.samsung.gamestudio.components.tubes.ShiftingTube;
+import ru.samsung.gamestudio.components.ui.MovingBackground;
 import ru.samsung.gamestudio.MyGdxGame;
-import ru.samsung.gamestudio.components.ScoreCounter;
-import ru.samsung.gamestudio.components.Tube;
+import ru.samsung.gamestudio.components.ui.ScoreCounter;
+import ru.samsung.gamestudio.components.tubes.Tube;
 
 public class GameScreen implements Screen {
     private final MyGdxGame myGdxGame;
@@ -35,6 +36,7 @@ public class GameScreen implements Screen {
     private final int TUBE_COUNT = 5;
     private Tube[] tubes;
 
+    private float SHIFT_DURATION = 2f;
 
     private float shakeTime = 0f;
     private float shakeIntensity = 0f;
@@ -108,6 +110,15 @@ public class GameScreen implements Screen {
         bird.changeTile(delta);
 
         for (Tube tube : tubes) {
+            if (tube instanceof ShiftingTube) {
+                if (((ShiftingTube) tube).doStartShift(bird)) {
+                    ((ShiftingTube) tube).startShifting(1f);
+                }
+                if (((ShiftingTube) tube).isShiftStarted) {
+                    ((ShiftingTube) tube).shift(delta);
+                }
+            }
+
             tube.move(delta);
             if (tube.isHitLowerTube(bird)) {
                 if (!isGameOver) startShake(0.4f, NORMAL_SHAKE_INTENSITY);
@@ -123,7 +134,8 @@ public class GameScreen implements Screen {
             }
         }
 
-        ScreenUtils.clear(0.3058f, 0.5725f, 0.7882f, 1f);
+        ScreenUtils.clear(0, 0, 0, 1);
+        myGdxGame.viewport.apply();
         myGdxGame.camera.update();
         myGdxGame.batch.setProjectionMatrix(myGdxGame.camera.combined);
         myGdxGame.batch.begin();
@@ -143,7 +155,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        myGdxGame.viewport.update(width, height);
     }
 
     @Override
@@ -173,20 +185,29 @@ public class GameScreen implements Screen {
 
     public void initTubes() {
         tubes = new Tube[TUBE_COUNT];
+        int r = random.nextInt(5);
         for (int i = 0; i < TUBE_COUNT; i++) {
-            tubes[i] = new Tube(random, TUBE_COUNT, i);
+            tubes[i] = chooseTube(i, r);
         }
     }
-    public void restartGame(float delta) {
+
+    private Tube chooseTube(int i, int r) {
+        if (i == r) {
+            return new ShiftingTube(random, TUBE_COUNT, i);
+        } else {
+            return new Tube(random, TUBE_COUNT, i);
+        }
+    }
+
+    public void restartGame() {
         this.isGameOver = false;
 
         this.score = 0;
 
         bird.reset((float) MyGdxGame.SCR_WIDTH / 2 - Bird.WIDTH, 300);
-
         initTubes();
 
-        movingBackground.move(delta);
+        movingBackground.start();
     }
 
 }
