@@ -1,5 +1,7 @@
 package ru.samsung.gamestudio.characters;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,6 +11,8 @@ import com.badlogic.gdx.math.Rectangle;
 import ru.samsung.gamestudio.MyGdxGame;
 
 public class Bird {
+
+    private final Sound jumpSound;
     private float x, y;
     private final float paddingX = 12f;
     private final float paddingY = 10f;
@@ -77,6 +81,8 @@ public class Bird {
                 y + paddingY,
                 WIDTH - (paddingX * 2),
                 HEIGHT - (paddingY * 2));
+
+        this.jumpSound = Gdx.audio.newSound(Gdx.files.internal("SFX/jump.mp3"));
     }
 
     public void fly(float delta) {
@@ -110,6 +116,7 @@ public class Bird {
 
     public void jump() {
         speedY = JUMP_IMPULSE;
+        jumpSound.play();
     }
 
     public void draw(Batch batch) {

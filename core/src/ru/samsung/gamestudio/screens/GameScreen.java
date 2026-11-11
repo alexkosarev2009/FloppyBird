@@ -6,6 +6,7 @@ import static ru.samsung.gamestudio.MyGdxGame.SCR_WIDTH;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.Timer;
@@ -22,7 +23,9 @@ import ru.samsung.gamestudio.components.tubes.Tube;
 public class GameScreen implements Screen {
     private final MyGdxGame myGdxGame;
 
-    private Preferences prefs;
+    private final Sound hitSound;
+
+    private final Preferences prefs;
     private long highScore;
 
     private final Random random = new Random();
@@ -40,7 +43,7 @@ public class GameScreen implements Screen {
     private final int TUBE_COUNT = 5;
     private Tube[] tubes;
 
-    private float SHIFT_DURATION = 2f;
+    private final float SHIFT_DURATION = 1f;
 
     private float shakeTime = 0f;
     private float shakeIntensity = 0f;
@@ -51,6 +54,9 @@ public class GameScreen implements Screen {
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
+
+        this.hitSound = Gdx.audio.newSound(Gdx.files.internal("SFX/face-punch.mp3"));
+
         this.prefs = Gdx.app.getPreferences("MyFlappyBirdPreferences");
         this.highScore = prefs.getLong("highScore", 0);
 
@@ -62,7 +68,7 @@ public class GameScreen implements Screen {
         this.startCameraX = myGdxGame.camera.position.x;
         this.startCameraY = myGdxGame.camera.position.y;
 
-        final int pointCounterMarginTop = 60 ;
+        final int pointCounterMarginTop = 60;
         final int pointCounterMarginRight = 60;
         scoreCounter = new ScoreCounter(pointCounterMarginRight, SCR_HEIGHT - pointCounterMarginTop);
     }
@@ -87,7 +93,7 @@ public class GameScreen implements Screen {
         }
 
         if (isGameOver) {
-            for (Tube tube: tubes) {
+            for (Tube tube : tubes) {
                 tube.stop();
             }
             movingBackground.stop();
@@ -106,7 +112,10 @@ public class GameScreen implements Screen {
             bird.jump();
         }
         if (!bird.isInBounds()) {
-            if (!isGameOver) startShake(0.4f, NORMAL_SHAKE_INTENSITY);
+            if (!isGameOver) {
+                startShake(0.4f, NORMAL_SHAKE_INTENSITY);
+                hitSound.play();
+            }
             isGameOver = true;
             checkAndSaveHighScore();
         }
@@ -119,7 +128,7 @@ public class GameScreen implements Screen {
         for (Tube tube : tubes) {
             if (tube instanceof ShiftingTube) {
                 if (((ShiftingTube) tube).doStartShift(bird)) {
-                    ((ShiftingTube) tube).startShifting(1f);
+                    ((ShiftingTube) tube).startShifting(SHIFT_DURATION);
                 }
                 if (((ShiftingTube) tube).isShiftStarted) {
                     ((ShiftingTube) tube).shift(delta);
@@ -128,12 +137,18 @@ public class GameScreen implements Screen {
 
             tube.move(delta);
             if (tube.isHitLowerTube(bird)) {
-                if (!isGameOver) startShake(0.4f, NORMAL_SHAKE_INTENSITY);
+                if (!isGameOver) {
+                    startShake(0.4f, NORMAL_SHAKE_INTENSITY);
+                    hitSound.play();
+                }
                 isGameOver = true;
                 checkAndSaveHighScore();
             }
             if (tube.isHitUpperTube(bird)) {
-                if (!isGameOver) startShake(0.4f, NORMAL_SHAKE_INTENSITY);
+                if (!isGameOver) {
+                    startShake(0.4f, NORMAL_SHAKE_INTENSITY);
+                    hitSound.play();
+                }
                 isGameOver = true;
                 bird.hitUpperTube();
                 checkAndSaveHighScore();
@@ -185,7 +200,7 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         bird.dispose();
-        for (Tube tube: tubes) {
+        for (Tube tube : tubes) {
             tube.dispose();
         }
         scoreCounter.dispose();

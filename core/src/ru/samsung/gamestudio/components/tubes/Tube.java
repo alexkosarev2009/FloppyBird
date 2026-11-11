@@ -53,6 +53,7 @@ public class Tube {
         lowerTubeTexture.getTexture().dispose();
         upperTubeTexture.getTexture().dispose();
     }
+
     public void move(float delta) {
         x -= speed * delta;
         if (x < -WIDTH) {
@@ -75,6 +76,7 @@ public class Tube {
         return false;
 
     }
+
     public boolean isHitUpperTube(Bird bird) {
         Rectangle birdBounds = bird.getBounds();
         if (birdBounds.getX() + birdBounds.width >= x && birdBounds.getX() <= x + WIDTH) {

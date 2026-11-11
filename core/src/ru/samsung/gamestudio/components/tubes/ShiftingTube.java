@@ -13,7 +13,6 @@ import ru.samsung.gamestudio.characters.Bird;
 
 public class ShiftingTube extends Tube {
 
-    private static final float SHIFT_SPEED = 100f;
     private static final float SHIFT_AMOUNT = 200f;
 
     private float startGapY;
@@ -51,9 +50,9 @@ public class ShiftingTube extends Tube {
             float alpha = Interpolation.bounceOut.apply(progress);
 
             gapY = startGapY + (targetGapY - startGapY) * alpha;
-        }
-        else isShiftStarted = false;
+        } else isShiftStarted = false;
     }
+
     public boolean doStartShift(Bird bird) {
         Rectangle birdBounds = bird.getBounds();
 
