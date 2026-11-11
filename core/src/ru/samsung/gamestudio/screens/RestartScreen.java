@@ -2,7 +2,9 @@ package ru.samsung.gamestudio.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -17,7 +19,7 @@ public class RestartScreen implements Screen {
     private final TextButton restartButton;
     private final TextButton goToMenuButton;
     private long score;
-    private final ScoreCounter scoreCounter;
+    private BitmapFont font;
 
     public void setScore(long score) {
         this.score = score;
@@ -26,7 +28,9 @@ public class RestartScreen implements Screen {
     public RestartScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
         this.score = 0;
-        this.scoreCounter = new ScoreCounter(750, 530);
+        font = new BitmapFont();
+        font.getData().setScale(5f);
+        font.setColor(Color.WHITE);
         this.movingBackground = new MovingBackground(new Texture("backgrounds/restart_bg.png"));
         this.restartButton = new TextButton(100, 500, "Restart");
         this.goToMenuButton = new TextButton(100, 300, "Menu");
@@ -68,7 +72,7 @@ public class RestartScreen implements Screen {
         movingBackground.draw(myGdxGame.batch);
         restartButton.draw(myGdxGame.batch);
         goToMenuButton.draw(myGdxGame.batch);
-        scoreCounter.draw(myGdxGame.batch, score);
+        font.draw(myGdxGame.batch, "SCORE: " + score, 750, 530);
 
         myGdxGame.batch.end();
 
@@ -98,7 +102,7 @@ public class RestartScreen implements Screen {
     public void dispose() {
         movingBackground.dispose();
         restartButton.dispose();
-        scoreCounter.dispose();
+        font.dispose();
         goToMenuButton.dispose();
     }
 }

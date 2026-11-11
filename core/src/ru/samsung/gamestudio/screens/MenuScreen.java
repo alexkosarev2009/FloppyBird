@@ -2,7 +2,9 @@ package ru.samsung.gamestudio.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -14,10 +16,14 @@ public class MenuScreen implements Screen {
 
     public MyGdxGame myGdxGame;
 
+    private long highScore;
+
     private MovingBackground movingBackground;
 
     private final TextButton startGameButton;
     private final TextButton quitGameButton;
+
+    private BitmapFont font;
 
 
     public MenuScreen(MyGdxGame myGdxGame) {
@@ -27,15 +33,19 @@ public class MenuScreen implements Screen {
         this.startGameButton = new TextButton(MyGdxGame.SCR_WIDTH / 2, 400, "Start");
         this.quitGameButton = new TextButton(MyGdxGame.SCR_WIDTH / 2, 200, "Quit");
 
+        font = new BitmapFont();
+        font.getData().setScale(4f);
+        font.setColor(Color.GOLD);
     }
 
     @Override
     public void show() {
-
     }
 
     @Override
     public void render(float delta) {
+        highScore = Gdx.app.getPreferences("MyFlappyBirdPreferences").getLong("highScore", 0);
+
         movingBackground.move(delta);
         Vector3 touch = new Vector3(-1, -1, -1);
 
@@ -59,6 +69,7 @@ public class MenuScreen implements Screen {
         movingBackground.draw(myGdxGame.batch);
         startGameButton.draw(myGdxGame.batch);
         quitGameButton.draw(myGdxGame.batch);
+        font.draw(myGdxGame.batch, "HIGHSCORE: " + highScore, MyGdxGame.SCR_WIDTH / 2 - 600, 420);
 
         myGdxGame.batch.end();
     }
@@ -88,5 +99,14 @@ public class MenuScreen implements Screen {
         movingBackground.dispose();
         startGameButton.dispose();
         quitGameButton.dispose();
+        font.dispose();
+    }
+
+    public long getHighScore() {
+        return highScore;
+    }
+
+    public void setHighScore(long highScore) {
+        this.highScore = highScore;
     }
 }

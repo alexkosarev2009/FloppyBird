@@ -4,6 +4,7 @@ import static ru.samsung.gamestudio.MyGdxGame.SCR_HEIGHT;
 import static ru.samsung.gamestudio.MyGdxGame.SCR_WIDTH;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -20,6 +21,9 @@ import ru.samsung.gamestudio.components.tubes.Tube;
 
 public class GameScreen implements Screen {
     private final MyGdxGame myGdxGame;
+
+    private Preferences prefs;
+    private long highScore;
 
     private final Random random = new Random();
 
@@ -47,6 +51,8 @@ public class GameScreen implements Screen {
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
+        this.prefs = Gdx.app.getPreferences("MyFlappyBirdPreferences");
+        this.highScore = prefs.getLong("highScore", 0);
 
         movingBackground = new MovingBackground(new Texture("backgrounds/game_bg.png"));
         bird = new Bird((float) SCR_WIDTH / 2 - Bird.WIDTH, 300, new Texture("birdTiles/bird0.png"), 150, 0);
@@ -102,6 +108,7 @@ public class GameScreen implements Screen {
         if (!bird.isInBounds()) {
             if (!isGameOver) startShake(0.4f, NORMAL_SHAKE_INTENSITY);
             isGameOver = true;
+            checkAndSaveHighScore();
         }
 
         movingBackground.move(delta);
@@ -123,11 +130,13 @@ public class GameScreen implements Screen {
             if (tube.isHitLowerTube(bird)) {
                 if (!isGameOver) startShake(0.4f, NORMAL_SHAKE_INTENSITY);
                 isGameOver = true;
+                checkAndSaveHighScore();
             }
             if (tube.isHitUpperTube(bird)) {
                 if (!isGameOver) startShake(0.4f, NORMAL_SHAKE_INTENSITY);
                 isGameOver = true;
                 bird.hitUpperTube();
+                checkAndSaveHighScore();
             }
             if (tube.isIncreasingScoreNeeded(bird)) {
                 score++;
@@ -208,6 +217,17 @@ public class GameScreen implements Screen {
         initTubes();
 
         movingBackground.start();
+    }
+
+    private void checkAndSaveHighScore() {
+        if (score > highScore) {
+            highScore = score;
+            myGdxGame.menuScreen.setHighScore(highScore);
+
+            prefs.putLong("highScore", highScore);
+
+            prefs.flush();
+        }
     }
 
 }
