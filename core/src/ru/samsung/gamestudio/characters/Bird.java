@@ -116,7 +116,7 @@ public class Bird {
 
     public void jump() {
         speedY = JUMP_IMPULSE;
-        jumpSound.play();
+        jumpSound.play(0.7f);
     }
 
     public void draw(Batch batch) {
@@ -136,6 +136,7 @@ public class Bird {
         for (TextureRegion t : framesArray) {
             t.getTexture().dispose();
         }
+        jumpSound.dispose();
     }
 
     public void changeTile(float delta) {

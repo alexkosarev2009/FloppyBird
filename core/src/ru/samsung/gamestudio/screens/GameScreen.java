@@ -6,6 +6,7 @@ import static ru.samsung.gamestudio.MyGdxGame.SCR_WIDTH;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -24,6 +25,7 @@ public class GameScreen implements Screen {
     private final MyGdxGame myGdxGame;
 
     private final Sound hitSound;
+    private final Sound increaseScoreSound;
 
     private final Preferences prefs;
     private long highScore;
@@ -56,6 +58,7 @@ public class GameScreen implements Screen {
         this.myGdxGame = myGdxGame;
 
         this.hitSound = Gdx.audio.newSound(Gdx.files.internal("SFX/face-punch.mp3"));
+        this.increaseScoreSound = Gdx.audio.newSound(Gdx.files.internal("SFX/coin.mp3"));
 
         this.prefs = Gdx.app.getPreferences("MyFlappyBirdPreferences");
         this.highScore = prefs.getLong("highScore", 0);
@@ -127,7 +130,7 @@ public class GameScreen implements Screen {
 
         for (Tube tube : tubes) {
             if (tube instanceof ShiftingTube) {
-                if (((ShiftingTube) tube).doStartShift(bird)) {
+                if (((ShiftingTube) tube).doStartShift(bird) && score > 10) {
                     ((ShiftingTube) tube).startShifting(SHIFT_DURATION);
                 }
                 if (((ShiftingTube) tube).isShiftStarted) {
@@ -155,6 +158,7 @@ public class GameScreen implements Screen {
             }
             if (tube.isIncreasingScoreNeeded(bird)) {
                 score++;
+                increaseScoreSound.play(0.7f);
             }
         }
 
@@ -205,6 +209,8 @@ public class GameScreen implements Screen {
         }
         scoreCounter.dispose();
         movingBackground.dispose();
+        hitSound.dispose();
+        increaseScoreSound.dispose();
     }
 
     public void initTubes() {

@@ -1,6 +1,8 @@
 package ru.samsung.gamestudio;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -20,8 +22,14 @@ public class MyGdxGame extends Game {
     public static final int SCR_WIDTH = 1280;
     public static final int SCR_HEIGHT = 720;
 
+    private Music casualMusic;
+
     @Override
     public void create() {
+        casualMusic = Gdx.audio.newMusic(Gdx.files.internal("music/casual.wav"));
+        casualMusic.setVolume(0.5f);
+        casualMusic.play();
+        casualMusic.setLooping(true);
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCR_WIDTH, SCR_HEIGHT);
@@ -40,5 +48,6 @@ public class MyGdxGame extends Game {
         if (gameScreen != null) gameScreen.dispose();
         if (restartScreen != null) restartScreen.dispose();
         if (menuScreen != null) menuScreen.dispose();
+        casualMusic.dispose();
     }
 }
