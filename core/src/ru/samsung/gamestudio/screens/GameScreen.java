@@ -145,6 +145,7 @@ public class GameScreen implements Screen {
                     hitSound.play();
                 }
                 isGameOver = true;
+                bird.hitUpperTube();
                 checkAndSaveHighScore();
             }
             if (tube.isHitUpperTube(bird)) {
@@ -235,6 +236,9 @@ public class GameScreen implements Screen {
         this.score = 0;
 
         bird.reset((float) MyGdxGame.SCR_WIDTH / 2 - Bird.WIDTH, 300);
+        for (int i = 0; i < TUBE_COUNT; i++) {
+            tubes[i].dispose();
+        }
         initTubes();
 
         movingBackground.start();

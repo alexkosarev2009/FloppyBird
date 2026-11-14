@@ -27,7 +27,7 @@ public class MyGdxGame extends Game {
     @Override
     public void create() {
         casualMusic = Gdx.audio.newMusic(Gdx.files.internal("music/casual.wav"));
-        casualMusic.setVolume(0.5f);
+        casualMusic.setVolume(0.3f);
         casualMusic.play();
         casualMusic.setLooping(true);
         batch = new SpriteBatch();

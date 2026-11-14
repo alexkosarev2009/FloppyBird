@@ -58,7 +58,7 @@ public class ShiftingTube extends Tube {
 
         float distanceToBird = x - birdBounds.getX() + birdBounds.getWidth();
 
-        return distanceToBird <= distanceBetweenTubes;
+        return distanceToBird <= distanceBetweenTubes && Math.abs(distanceToBird) > distanceBetweenTubes / 2;
     }
 
     @Override

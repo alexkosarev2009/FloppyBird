@@ -116,7 +116,7 @@ public class Bird {
 
     public void jump() {
         speedY = JUMP_IMPULSE;
-        jumpSound.play(0.7f);
+        jumpSound.play(2f);
     }
 
     public void draw(Batch batch) {
